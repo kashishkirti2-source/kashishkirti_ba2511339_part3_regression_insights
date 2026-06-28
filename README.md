@@ -1,73 +1,138 @@
-# Business Problem Summary
+# Part 3: Regression-Based Business Insights & Model Interpretation
 
-The leadership team of a retail chain wants to understand which business factors are most strongly associated with monthly sales performance across stores. The objective is to use regression analysis to identify the key drivers of sales and support business decisions related to marketing, inventory management, staffing, discount strategy, and store operations.
+## Business Problem Summary
 
----
-
-# Dataset Description
-
-The dataset contains monthly business information for retail stores, including sales, marketing spend, customer footfall, discounts, inventory availability, staffing, customer ratings, region, and store type. These variables are used to build regression models for explaining variations in monthly sales.
+A retail chain wants to identify the key factors influencing monthly sales across its stores. The objective is to use regression analysis to understand which business variables are most strongly associated with sales so that leadership can make informed decisions regarding marketing investment, inventory management, staffing, and regional business strategy.
 
 ---
 
-# Dependent and Independent Variables
+## Dataset Description
 
-## Dependent Variable
+The dataset contains monthly performance data for **320 store-month observations**. It includes store information, marketing activity, customer behaviour, operational metrics, and financial performance.
 
-**monthly_sales**
+Key variables include:
 
-This is the target variable that the regression models aim to predict and explain.
+* Store ID
+* Month
+* Region
+* Store Type
+* Marketing Spend
+* Footfall
+* Average Discount Percentage
+* Staff Count
+* Inventory Availability Percentage
+* Competitor Distance
+* Holiday Flag
+* Customer Rating
+* Monthly Sales
+* Monthly Profit
 
-## Potential Independent Variables
+---
+
+## Dependent and Independent Variables
+
+### Dependent Variable
+
+* **monthly_sales**
+
+### Independent Variables
 
 * marketing_spend
 * footfall
-* avg_discount_pct
-* staff_count
 * inventory_availability_pct
-* competitor_distance_km
-* holiday_flag
-* customer_rating
-* region (Dummy Variables)
-* store_type (Dummy Variables)
-
----
-
-# Numerical Variables
-
-* marketing_spend
-* footfall
 * avg_discount_pct
-* staff_count
-* inventory_availability_pct
-* competitor_distance_km
 * customer_rating
-* monthly_sales
-* monthly_profit
+* Region dummy variables (North, South, West)
 
 ---
 
-# Categorical Variables
+## Regression Approach
 
-* region
-* store_type
+The analysis was completed in the following stages:
+
+1. Data cleaning and preparation
+2. Creation of dummy variables for categorical data
+3. Simple Linear Regression using:
+
+   * Marketing Spend
+   * Footfall
+4. Multiple Linear Regression using:
+
+   * Marketing Spend
+   * Footfall
+   * Inventory Availability
+   * Region Dummy Variables
+5. Model comparison using R-squared and statistical significance
+6. Residual analysis for prediction accuracy
 
 ---
 
-# Variables That May Need Cleaning or Transformation
+## Dummy Variable Approach
 
-The following preprocessing steps may be required before regression analysis:
+The categorical variable **Region** was converted into dummy variables.
 
-* Check for missing values.
-* Verify numerical columns for invalid or extreme values.
-* Convert categorical variables (such as region and store_type) into dummy variables.
-* Keep one category as the reference category to avoid the dummy variable trap.
+Created dummy variables:
+
+* Region_North
+* Region_South
+* Region_West
+
+**East** was selected as the reference category to avoid the dummy variable trap.
 
 ---
 
-# Variables That May Not Be Useful for Regression
+## Model Comparison Summary
 
-* store_id (Unique identifier only)
-* month (Used mainly for identification or trend analysis and not included in the regression model)
+| Model                               | R²     | Summary                                              |
+| ----------------------------------- | ------ | ---------------------------------------------------- |
+| Simple Regression (Marketing Spend) | 0.1672 | Moderate relationship with sales                     |
+| Simple Regression (Footfall)        | 0.7363 | Strong relationship with sales                       |
+| Multiple Regression                 | 0.8114 | Best performing model with highest explanatory power |
 
-These variables do not directly explain monthly sales and are therefore excluded from the regression models.
+The multiple regression model explains approximately **81.14%** of the variation in monthly sales and outperformed both simple regression models.
+
+---
+
+## Final Model Selected
+
+The **Multiple Regression Model** was selected because it provides the highest R-squared value, includes multiple important business drivers, and offers stronger predictive performance than the individual simple regression models.
+
+---
+
+## Business Recommendation
+
+The analysis suggests that leadership should prioritize:
+
+* Increasing customer footfall
+* Optimizing marketing spend
+* Maintaining high inventory availability
+
+Regional differences should be interpreted carefully, as not all regional coefficients were statistically significant.
+
+The multiple regression model should be used to support strategic planning and resource allocation.
+
+---
+
+## Assumptions and Limitations
+
+### Assumptions
+
+* Linear relationship exists between predictors and monthly sales.
+* Residual errors are independent.
+* Predictor variables are measured accurately.
+* Historical data represents current business conditions.
+
+### Limitations
+
+* Regression identifies association rather than causation.
+* External business factors such as economic conditions, competitor promotions, and seasonality were not included.
+* Predictions may differ under future market conditions.
+
+---
+
+## Screenshots Included
+
+* simple_regression_output.png
+* multiple_regression_output.png
+* residuals_preview.png
+* model_comparison_preview.png
